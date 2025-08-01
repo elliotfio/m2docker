@@ -1,0 +1,31 @@
+name: Deploy Bot
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t bot-war .
+        # Ici, vous ajouteriez les commandes pour pousser l'image vers votre registry
+        # et déployer sur votre plateforme d'hébergement 
