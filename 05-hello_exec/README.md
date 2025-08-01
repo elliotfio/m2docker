@@ -34,3 +34,13 @@ PS : merci d'utiliser ton cerveau et non ChatGPT.
 
 ## 📝 Rendu Attendu
 Dockerfile + les lignes de commandes
+
+docker build -t postgres-age 
+docker run -d --name postgres-age -p 5432:5432 postgres-age
+docker exec -it postgres-age psql -U postgres mydb
+
+SELECT COUNT(*) FROM personnes WHERE age > 30;
+ count 
+-------
+    54
+(1 row)

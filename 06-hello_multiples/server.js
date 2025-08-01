@@ -1,27 +1,26 @@
 const express = require('express');
 const { Pool } = require('pg');
-const pool = new Pool({
-  user: 'db',
-  host: 'localhost',
-  database: 'db',
-  password: 'db',
-  port: 5432,
-});
 const app = express();
+const port = 3000;
 
-const PORT = 3000;
-
-app.use(express.json());
+const pool = new Pool({
+    user: 'postgres',
+    host: 'db',
+    database: 'mydb',
+    password: 'root',
+    port: 5432,
+});
 
 app.get('/', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM personnes');
-    res.json(result.rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    try {
+        const result = await pool.query('SELECT nom FROM personnes');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Erreur de base de données:', err);
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
 });
 
-app.listen(PORT, () => {
-  console.log(`Serveur en écoute sur le port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Serveur en écoute sur le port ${port}`);
 });
